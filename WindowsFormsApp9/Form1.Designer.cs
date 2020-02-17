@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +43,7 @@
             this.btFontParam = new System.Windows.Forms.ToolStripButton();
             this.cbFontSize = new System.Windows.Forms.ToolStripComboBox();
             this.cbFontColor = new System.Windows.Forms.ToolStripComboBox();
-            this.cbFontBackColor = new System.Windows.Forms.ToolStripComboBox();
+            this.cbFontBackColor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btAlignLeft = new System.Windows.Forms.ToolStripButton();
             this.btAlignCenter = new System.Windows.Forms.ToolStripButton();
@@ -57,8 +58,12 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -70,7 +75,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(684, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(790, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -154,7 +159,7 @@
             this.btTextUnderline});
             this.toolStrip1.Location = new System.Drawing.Point(0, 28);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(684, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(790, 28);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -187,11 +192,14 @@
             // 
             // cbFontBackColor
             // 
-            this.cbFontBackColor.DropDownWidth = 160;
+            this.cbFontBackColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.cbFontBackColor.Image = ((System.Drawing.Image)(resources.GetObject("cbFontBackColor.Image")));
+            this.cbFontBackColor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cbFontBackColor.Name = "cbFontBackColor";
-            this.cbFontBackColor.Size = new System.Drawing.Size(160, 28);
+            this.cbFontBackColor.Size = new System.Drawing.Size(111, 25);
+            this.cbFontBackColor.Text = "Text BackColor";
             this.cbFontBackColor.ToolTipText = "Back Color";
-            this.cbFontBackColor.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBox3_SelectedIndexChanged);
+            this.cbFontBackColor.Click += new System.EventHandler(this.CbFontBackColor_Click);
             // 
             // toolStripSeparator1
             // 
@@ -284,10 +292,11 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 56);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(684, 498);
+            this.richTextBox1.Size = new System.Drawing.Size(790, 498);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.RichTextBox1_SelectionChanged);
+            this.richTextBox1.Resize += new System.EventHandler(this.RichTextBox1_Resize);
             // 
             // statusStrip1
             // 
@@ -295,15 +304,39 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 532);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(684, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(790, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipText = "I am still working";
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon1_MouseDoubleClick);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkRate = 500;
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // btButton
+            // 
+            this.btButton.Location = new System.Drawing.Point(666, 31);
+            this.btButton.Name = "btButton";
+            this.btButton.Size = new System.Drawing.Size(75, 23);
+            this.btButton.TabIndex = 4;
+            this.btButton.Text = "Button";
+            this.btButton.UseVisualStyleBackColor = true;
+            this.btButton.Click += new System.EventHandler(this.BtButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 554);
+            this.ClientSize = new System.Drawing.Size(790, 554);
+            this.Controls.Add(this.btButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.toolStrip1);
@@ -316,6 +349,7 @@
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,7 +384,10 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.ToolStripComboBox cbFontBackColor;
+        private System.Windows.Forms.ToolStripButton cbFontBackColor;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button btButton;
     }
 }
 

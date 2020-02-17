@@ -16,6 +16,8 @@ namespace WindowsFormsApp9
         public Form1()
         {
             InitializeComponent();
+            errorProvider1.SetError(btButton, "Click Button!");
+            saveFileDialog1.Filter = "Text document (*.txt)|*.txt|Richtext document (*.rtf)|**.rtf";
             for (int i = 6; i < 36; i += 2)
             {
                 cbFontSize.Items.Add(i);
@@ -27,10 +29,8 @@ namespace WindowsFormsApp9
             foreach (var item in myColors)
             {
                 cbFontColor.Items.Add(item);
-                cbFontBackColor.Items.Add(item);
             }
             cbFontColor.SelectedItem = KnownColor.Black;
-            cbFontBackColor.SelectedItem = KnownColor.White;
 
         }
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace WindowsFormsApp9
             openFileDialog1.Filter = "Text document (*.txt)|*.txt|Richtext document (*.rtf)|**.rtf";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (Path.GetExtension(openFileDialog1.FileName) == "rtf")
+                if (Path.GetExtension(openFileDialog1.FileName) == ".rtf")
                     richTextBox1.LoadFile(openFileDialog1.FileName);
                 else
                     richTextBox1.LoadFile(openFileDialog1.FileName, RichTextBoxStreamType.PlainText);
@@ -64,7 +64,7 @@ namespace WindowsFormsApp9
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (Path.GetExtension(saveFileDialog1.FileName) == "rtf")
+                if (Path.GetExtension(saveFileDialog1.FileName) == ".rtf")
                     richTextBox1.SaveFile(saveFileDialog1.FileName);
                 else
                     richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.PlainText);
@@ -94,11 +94,6 @@ namespace WindowsFormsApp9
         private void toolStripComboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBox1.SelectionColor = Color.FromKnownColor((KnownColor)cbFontColor.SelectedItem);
-        }
-
-        private void ToolStripComboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            richTextBox1.SelectionBackColor = Color.FromKnownColor((KnownColor)cbFontBackColor.SelectedItem);
         }
         private void ResetAlign()
         {
@@ -145,12 +140,75 @@ namespace WindowsFormsApp9
         {
             richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, NewStyle());
         }
-
         private void RichTextBox1_SelectionChanged(object sender, EventArgs e)
         {
-            cbFontBackColor.SelectedItem = Enum.Parse(typeof(KnownColor), richTextBox1.SelectionBackColor.Name);
             cbFontColor.SelectedItem = Enum.Parse(typeof(KnownColor), richTextBox1.SelectionColor.Name);
             cbFontSize.SelectedItem = (int)richTextBox1.SelectionFont.Size;
+            btTextBold.Checked = richTextBox1.SelectionFont.Bold;
+            btTextItalic.Checked = richTextBox1.SelectionFont.Italic;
+            btTextUnderline.Checked = richTextBox1.SelectionFont.Underline;
+            ResetAlign();
+            switch (richTextBox1.SelectionAlignment.ToString())
+            {
+                case "Left":
+                    btAlignLeft.Checked = true;
+                    break;
+                case "Center":
+                    btAlignCenter.Checked = true;
+                    break;
+                case "Right":
+                    btAlignRight.Checked = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void CbFontBackColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+                richTextBox1.SelectionBackColor = colorDialog1.Color;
+        }
+
+        private void NotifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (WindowState == FormWindowState.Normal)
+            {
+                WindowState = FormWindowState.Minimized;
+                ShowInTaskbar = false;
+                notifyIcon1.BalloonTipText = "I am still working";
+                notifyIcon1.ShowBalloonTip(2000);
+            }
+            else if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                ShowInTaskbar = true;
+            }
+        }
+        private void RichTextBox1_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Normal)
+            {
+                notifyIcon1.BalloonTipText = "Normal";
+                notifyIcon1.ShowBalloonTip(2000);
+                ShowInTaskbar = true;
+            }
+            else if (WindowState == FormWindowState.Minimized)
+            {
+                notifyIcon1.BalloonTipText = "I am still working";
+                notifyIcon1.ShowBalloonTip(2000);
+                ShowInTaskbar = false;
+            }
+            else if (WindowState == FormWindowState.Maximized)
+            {
+                notifyIcon1.BalloonTipText = "Maximized";
+                notifyIcon1.ShowBalloonTip(2000);
+                ShowInTaskbar = true;
+            }
+        }
+
+        private void BtButton_Click(object sender, EventArgs e)
+        {
+            errorProvider1.Clear();
         }
     }
 }
